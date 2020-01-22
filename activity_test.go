@@ -76,4 +76,3 @@ func TestIterateByWeekday(t *testing.T) {
     return nil
   })
 }
-
