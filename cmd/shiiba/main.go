@@ -1,9 +1,16 @@
 package main
 
 import (
-  "fmt"
+  "log"
+  "os"
+  "time"
+
+  shiiba "github.com/snaka/go-shiiba"
 )
 
 func main() {
-  fmt.Println("Not implemented yet")
+  err := shiiba.ShowCalendar(os.Stdout, time.Now(), 365)
+  if err != nil {
+    log.Fatal(err)
+  }
 }

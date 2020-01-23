@@ -6,6 +6,7 @@ import (
   "time"
 )
 
+// ShowCalendar puts calendar to 'out' buffer
 func ShowCalendar(out io.Writer, now time.Time, days int) error {
   acts := NewActivitiesWithFiller(now, days)
   for w := 0; w < 7; w++ {

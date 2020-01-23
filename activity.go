@@ -59,7 +59,7 @@ func (p *Activities) Iterate(cb func(int, Activity) error) error {
   return nil
 }
 
-// Iterate activities by weekday
+// IterateByWeekday iterates activities by each weekday
 func (p *Activities) IterateByWeekday(weekday time.Weekday, cb func(int, Activity) error) error {
   p.Iterate(func(i int, a Activity) error {
     if a.Date.Weekday() == weekday {
