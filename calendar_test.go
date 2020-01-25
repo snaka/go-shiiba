@@ -1,18 +1,18 @@
 package shiiba
 
 import (
-  "bytes"
-  "testing"
-  "time"
+	"bytes"
+	"testing"
+	"time"
 )
 
 func TestShowCalendar(t *testing.T) {
-  buf := &bytes.Buffer{}
-  now := time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)
-  ShowCalendar(buf, now, 365)
-  output := buf.String()
+	buf := &bytes.Buffer{}
+	now := time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)
+	ShowCalendar(buf, now, 365)
+	output := buf.String()
 
-  expected := `.....................................................
+	expected := `.....................................................
 .....................................................
 .....................................................
 .....................................................
@@ -20,18 +20,18 @@ func TestShowCalendar(t *testing.T) {
 ....................................................
 ....................................................
 `
-  if expected != output {
-    t.Errorf("fail: calendar output invalid want %v but %v", expected, output)
-  }
+	if expected != output {
+		t.Errorf("fail: calendar output invalid want %v but %v", expected, output)
+	}
 }
 
 func TestShowCalendarWithWeekday(t *testing.T) {
-  buf := &bytes.Buffer{}
-  now := time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)
-  ShowCalendar(buf, now, 365, IsShowWeekday(true))
-  output := buf.String()
+	buf := &bytes.Buffer{}
+	now := time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)
+	ShowCalendar(buf, now, 365, IsShowWeekday(true))
+	output := buf.String()
 
-  expected := `    .....................................................
+	expected := `    .....................................................
 Mon .....................................................
     .....................................................
 Wed .....................................................
@@ -39,18 +39,18 @@ Wed .....................................................
 Fri ....................................................
     ....................................................
 `
-  if expected != output {
-    t.Errorf("fail: calendar output invalid want %v but %v", expected, output)
-  }
+	if expected != output {
+		t.Errorf("fail: calendar output invalid want %v but %v", expected, output)
+	}
 }
 
 func TestShowCalendarWithMonth(t *testing.T) {
-  buf := &bytes.Buffer{}
-  now := time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)
-  ShowCalendar(buf, now, 365, IsShowMonth(true))
-  output := buf.String()
+	buf := &bytes.Buffer{}
+	now := time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)
+	ShowCalendar(buf, now, 365, IsShowMonth(true))
+	output := buf.String()
 
-  expected := ` Jan Feb Mar  Apr May Jun  Jul Aug Sep  Oct Nov Dec
+	expected := ` Jan Feb Mar  Apr May Jun  Jul Aug Sep  Oct Nov Dec
 .....................................................
 .....................................................
 .....................................................
@@ -59,18 +59,18 @@ func TestShowCalendarWithMonth(t *testing.T) {
 ....................................................
 ....................................................
 `
-  if expected != output {
-    t.Errorf("fail: calendar output invalid want %v but %v", expected, output)
-  }
+	if expected != output {
+		t.Errorf("fail: calendar output invalid want %v but %v", expected, output)
+	}
 }
 
 func TestShowCalendarWithMonthAndWeekday(t *testing.T) {
-  buf := &bytes.Buffer{}
-  now := time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)
-  ShowCalendar(buf, now, 365, IsShowMonth(true), IsShowWeekday(true))
-  output := buf.String()
+	buf := &bytes.Buffer{}
+	now := time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)
+	ShowCalendar(buf, now, 365, IsShowMonth(true), IsShowWeekday(true))
+	output := buf.String()
 
-  expected := `     Jan Feb Mar  Apr May Jun  Jul Aug Sep  Oct Nov Dec
+	expected := `     Jan Feb Mar  Apr May Jun  Jul Aug Sep  Oct Nov Dec
     .....................................................
 Mon .....................................................
     .....................................................
@@ -79,7 +79,7 @@ Wed .....................................................
 Fri ....................................................
     ....................................................
 `
-  if expected != output {
-    t.Errorf("fail: calendar output invalid want %v but %v", expected, output)
-  }
+	if expected != output {
+		t.Errorf("fail: calendar output invalid want %v but %v", expected, output)
+	}
 }
