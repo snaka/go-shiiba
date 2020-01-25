@@ -41,7 +41,7 @@ func ShowCalendar(out io.Writer, now time.Time, days int, options ...Option) err
   acts := NewActivitiesWithFiller(now, days)
   if args.IsShowMonth {
     if args.IsShowWeekday {
-      fmt.Print("    ")
+      fmt.Fprint(out, "    ")
     }
     printMonths(out, acts)
   }
