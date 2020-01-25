@@ -63,3 +63,23 @@ func TestShowCalendarWithMonth(t *testing.T) {
     t.Errorf("fail: calendar output invalid want %v but %v", expected, output)
   }
 }
+
+func TestShowCalendarWithMonthAndWeekday(t *testing.T) {
+  buf := &bytes.Buffer{}
+  now := time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)
+  ShowCalendar(buf, now, 365, IsShowMonth(true), IsShowWeekday(true))
+  output := buf.String()
+
+  expected := `     Jan Feb Mar  Apr May Jun  Jul Aug Sep  Oct Nov Dec
+    .....................................................
+Mon .....................................................
+    .....................................................
+Wed .....................................................
+    ....................................................
+Fri ....................................................
+    ....................................................
+`
+  if expected != output {
+    t.Errorf("fail: calendar output invalid want %v but %v", expected, output)
+  }
+}
