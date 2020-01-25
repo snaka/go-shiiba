@@ -49,25 +49,21 @@ func (p *Activities) init() {
 }
 
 // Iterate activities
-func (p *Activities) Iterate(cb func(int, Activity) error) error {
+func (p *Activities) Iterate(cb func(int, Activity)) {
   for i, v := range p.data {
-    err := cb(i, *v)
-    if err != nil  {
-      break
-    }
+    cb(i, *v)
   }
-  return nil
 }
 
 // IterateByWeekday iterates activities by each weekday
-func (p *Activities) IterateByWeekday(weekday time.Weekday, cb func(int, Activity) error) error {
-  p.Iterate(func(i int, a Activity) error {
+func (p *Activities) IterateByWeekday(weekday time.Weekday, cb func(int, Activity)) {
+  col := 0
+  p.Iterate(func(i int, a Activity) {
     if a.Date.Weekday() == weekday {
-      cb(i, a)
+      cb(col, a)
+      col++
     }
-    return nil
   })
-  return nil
 }
 
 // First returns first activity of data

@@ -9,7 +9,13 @@ import (
 )
 
 func main() {
-  err := shiiba.ShowCalendar(os.Stdout, time.Now(), 365, shiiba.IsShowWeekday(true))
+  err := shiiba.ShowCalendar(
+    os.Stdout,
+    time.Now(),
+    365,
+    shiiba.IsShowWeekday(true),
+    shiiba.IsShowMonth(true),
+  )
   if err != nil {
     log.Fatal(err)
   }

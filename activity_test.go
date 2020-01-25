@@ -57,22 +57,20 @@ func TestNewActivitiesWithFiller(t *testing.T) {
 func TestIterate(t *testing.T) {
   expects := createSamples(10)
   acts := NewActivities(now, len(expects))
-  acts.Iterate(func(i int, a Activity) error {
+  acts.Iterate(func(i int, a Activity) {
     if !expects[i].Equal(a.Date) {
       t.Errorf("#%d: date not expected: got: %v want: %v", i, a.Date, expects[i])
     }
-    return nil
   })
 }
 
 func TestIterateByWeekday(t *testing.T) {
   expects := createSamples(30)
   acts := NewActivities(now, len(expects))
-  acts.IterateByWeekday(time.Sunday, func(i int, a Activity) error {
+  acts.IterateByWeekday(time.Sunday, func(i int, a Activity) {
     expected, actual := time.Sunday, a.Date.Weekday()
     if expected != actual {
       t.Errorf("#%d: weekday not expected. got: %v want: %v", i, actual, expected)
     }
-    return nil
   })
 }
