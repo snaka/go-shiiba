@@ -21,23 +21,18 @@ func dateBefore(base time.Time, before int) time.Time {
 	return base.Add(time.Duration(-(before)*24) * time.Hour)
 }
 
-// NewActivities initalize and return instance
+// NewActivitiesWithFiller initialize with filler that adjust data starts from Sunday
 func NewActivities(now time.Time, days int) *Activities {
-	from := dateBefore(now, days-1)
+  offset := int(dateBefore(now, days-1).Weekday())
+	adjustedDays := days + offset
+	from := dateBefore(now, adjustedDays-1)
 	a := &Activities{
-		data: make([]*Activity, days),
+		data: make([]*Activity, adjustedDays),
 		From: from,
 		To:   now,
 	}
 	a.init()
 	return a
-}
-
-// NewActivitiesWithFiller initialize with filler that adjust data starts from Sunday
-func NewActivitiesWithFiller(now time.Time, days int) *Activities {
-	adjustDays := int(dateBefore(now, days-1).Weekday())
-	adjustedDays := days + adjustDays
-	return NewActivities(now, adjustedDays)
 }
 
 // init activities
@@ -47,6 +42,12 @@ func (p *Activities) init() {
 		p.data[i] = &Activity{Date: p.From.Add(time.Duration(i*24) * time.Hour)}
 	}
 }
+
+// Days returns data count
+func (p *Activities) Days() int {
+  return len(p.data)
+}
+
 
 // Iterate activities
 func (p *Activities) Iterate(cb func(int, Activity)) {

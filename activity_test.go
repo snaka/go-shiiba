@@ -20,22 +20,7 @@ func createSamples(count int) []time.Time {
 }
 
 func TestNewActivities(t *testing.T) {
-	a := NewActivities(now, 10)
-	if a == nil {
-		t.Errorf("NewActivities is nil")
-	}
-	expectedTypeName := "*shiiba.Activities"
-	if reflect.TypeOf(a).String() != expectedTypeName {
-		t.Errorf("fail: want %s but %T", expectedTypeName, a)
-	}
-	expectedFromDate := time.Date(2019, 12, 23, 0, 0, 0, 0, time.UTC)
-	if !expectedFromDate.Equal(a.From) {
-		t.Errorf("fail: want %v but %v", expectedFromDate, a.From)
-	}
-}
-
-func TestNewActivitiesWithFiller(t *testing.T) {
-	acts := NewActivitiesWithFiller(now, 10)
+	acts := NewActivities(now, 10)
 	if acts == nil {
 		t.Errorf("NewActivities is nil")
 	}
@@ -55,8 +40,8 @@ func TestNewActivitiesWithFiller(t *testing.T) {
 }
 
 func TestIterate(t *testing.T) {
-	expects := createSamples(10)
-	acts := NewActivities(now, len(expects))
+	acts := NewActivities(now, 10)
+	expects := createSamples(acts.Days())
 	acts.Iterate(func(i int, a Activity) {
 		if !expects[i].Equal(a.Date) {
 			t.Errorf("#%d: date not expected: got: %v want: %v", i, a.Date, expects[i])
@@ -65,8 +50,7 @@ func TestIterate(t *testing.T) {
 }
 
 func TestIterateByWeekday(t *testing.T) {
-	expects := createSamples(30)
-	acts := NewActivities(now, len(expects))
+	acts := NewActivities(now, 30)
 	acts.IterateByWeekday(time.Sunday, func(i int, a Activity) {
 		expected, actual := time.Sunday, a.Date.Weekday()
 		if expected != actual {

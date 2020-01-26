@@ -50,7 +50,7 @@ func ShowCalendar(out io.Writer, now time.Time, days int, options ...Option) err
 		option(args)
 	}
 
-	acts := NewActivitiesWithFiller(now, days)
+	acts := NewActivities(now, days)
 	args.ActivityProvider(acts)
 
 	if args.IsShowMonth {
