@@ -10,7 +10,7 @@ import (
 
 // Configs represents calendar behavior
 type Configs struct {
-	ActivitySource string
+	ActivityProvider Provider
 	IsShowWeekday  bool
 	IsShowMonth    bool
 }
@@ -18,10 +18,10 @@ type Configs struct {
 // Option sets configure
 type Option func(*Configs)
 
-// ActivitySource provides activity data like Qiita, Github, etc.
-func ActivitySource(service string) Option {
+// ActivityProvider provides activity data like Qiita, Github, etc.
+func ActivityProvider(service string) Option {
 	return func(args *Configs) {
-		args.ActivitySource = service
+		args.ActivityProvider = getProvider(service)
 	}
 }
 
@@ -41,18 +41,17 @@ func IsShowMonth(on bool) Option {
 
 // ShowCalendar puts calendar to 'out' buffer
 func ShowCalendar(out io.Writer, now time.Time, days int, options ...Option) error {
-	args := &Configs{}
+	args := &Configs{
+		ActivityProvider: NullProvider,
+		IsShowWeekday:  false,
+		IsShowMonth:    false,
+	}
 	for _, option := range options {
 		option(args)
 	}
 
-	provider, err := getProvider(args.ActivitySource)
-	if err != nil {
-		return err
-	}
-
 	acts := NewActivitiesWithFiller(now, days)
-	provider.FillData(acts)
+	args.ActivityProvider(acts)
 
 	if args.IsShowMonth {
 		if args.IsShowWeekday {
