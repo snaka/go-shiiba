@@ -48,6 +48,21 @@ func (p *Activities) Days() int {
   return len(p.data)
 }
 
+// Max returns data that have maximum count data
+func (p *Activities) Max() Activity {
+  max := p.data[0]
+  for i := 1; i < len(p.data); i++ {
+    if max.Count < p.data[i].Count {
+      max = p.data[i]
+    }
+  }
+  return *max
+}
+
+// LoadFrom loads activities from Provider function
+func (p *Activities) LoadFrom(prov Provider) {
+  prov(p)
+}
 
 // Iterate activities
 func (p *Activities) Iterate(cb func(int, Activity)) {

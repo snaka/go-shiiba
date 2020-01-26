@@ -39,6 +39,39 @@ func TestNewActivities(t *testing.T) {
 	}
 }
 
+func TestDays(t *testing.T) {
+  acts := NewActivities(now, 10)
+  expected, actual := 11, acts.Days()
+  if expected != actual {
+    t.Errorf("fail: want %v but %v", expected, actual)
+  }
+}
+
+func TestMaxCount(t *testing.T) {
+  acts := NewActivities(now, 10)
+  acts.LoadFrom(func(acts *Activities) {
+    acts.data[5].Count = 11
+  })
+  expected,  actual := 11, acts.Max().Count
+  if expected != actual {
+    t.Errorf("fail: want %v but %v", expected, actual)
+  }
+}
+
+func TestLoadFrom(t *testing.T) {
+  acts := NewActivities(now, 10)
+  acts.LoadFrom(func(acts *Activities) {
+    for i := 0; i < len(acts.data); i++ {
+      acts.data[i].Count = 9
+    }
+  })
+  acts.Iterate(func(i int, a Activity) {
+    if a.Count != 9 {
+      t.Errorf("fail: want %v but %v", 9, a.Count)
+    }
+  })
+}
+
 func TestIterate(t *testing.T) {
 	acts := NewActivities(now, 10)
 	expects := createSamples(acts.Days())
