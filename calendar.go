@@ -11,8 +11,8 @@ import (
 // Configs represents calendar behavior
 type Configs struct {
 	ActivityProvider Provider
-	IsShowWeekday  bool
-	IsShowMonth    bool
+	IsShowWeekday    bool
+	IsShowMonth      bool
 }
 
 // Option sets configure
@@ -43,8 +43,8 @@ func IsShowMonth(on bool) Option {
 func ShowCalendar(out io.Writer, now time.Time, days int, options ...Option) error {
 	args := &Configs{
 		ActivityProvider: NullProvider,
-		IsShowWeekday:  false,
-		IsShowMonth:    false,
+		IsShowWeekday:    false,
+		IsShowMonth:      false,
 	}
 	for _, option := range options {
 		option(args)
@@ -69,8 +69,12 @@ func ShowCalendar(out io.Writer, now time.Time, days int, options ...Option) err
 			}
 			fmt.Fprintf(out, "%s ", s)
 		}
-		acts.IterateByWeekday(time.Weekday(w), func(_ int, _ Activity) {
-			fmt.Fprint(out, ".")
+		acts.IterateByWeekday(time.Weekday(w), func(_ int, a Activity) {
+			if a.Count > 0 {
+				fmt.Fprint(out, "o")
+			} else {
+				fmt.Fprint(out, ".")
+			}
 		})
 		fmt.Fprint(out, "\n")
 	}

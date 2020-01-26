@@ -4,7 +4,7 @@ package shiiba
 type Provider func(*Activities)
 
 func NullProvider(acts *Activities) {
-  // do nothing
+	// do nothing
 }
 
 func getProvider(service string) Provider {
